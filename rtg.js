@@ -10,50 +10,54 @@ function assignRandomWords() {
     document.getElementById("format").innerText = words.formats[getRandomInt(words.formats.length)];
 }
 
-function assignRandomWordsWithDelay()
-{
-    if(delayCounter==delayMax) {
+function assignRandomWordsWithDelay(currentTimestamp) {
+    if (currentTimestamp - lastDelayedAssignmentTimestamp >= currentDelay) {
         assignRandomWords();
-        delayCounter = 0;
-        if( delayMax != 0)
-            delayMax--;
-    } else {
-        delayCounter++;
+        currentDelay = Math.max(0.0, currentDelay - 0.1 * maxDelay);
+        lastDelayedAssignmentTimestamp = currentTimestamp;
     }
+    animationFrameRequestId = window.requestAnimationFrame(assignRandomWordsWithDelay);
 }
 
-let intervalTimer;
+const maxDelay = 100;
+
+let animationFrameRequestId;
 let cancelTimeout;
-let delayMax;
-let delayCounter;
+let currentDelay;
+let lastDelayedAssignmentTimestamp;
 
 function reset() {
-    intervalTimer = 0;
+    animationFrameRequestId = 0;
     cancelTimeout = 0;
-    delayMax = 10;
-    delayCounter = 0;
+    currentDelay = maxDelay;
+    lastDelayedAssignmentTimestamp = 0;
 }
+
 reset();
+
 
 function startRandomization() {
     stopRandomization();
     console.log("start");
     document.getElementById("words").classList.add("randomizing");
     assignRandomWords();
-    intervalTimer = window.setInterval(assignRandomWordsWithDelay, 10);
+    animationFrameRequestId = window.requestAnimationFrame(assignRandomWordsWithDelay);
+    lastDelayedAssignmentTimestamp = performance.now();
     cancelTimeout = window.setTimeout(stopRandomization, 10 * 1000);
 }
 
 function stopRandomization() {
     console.log("stop");
-    window.clearTimeout(cancelTimeout)
-    window.clearInterval(intervalTimer);
+    window.clearTimeout(cancelTimeout);
+    window.cancelAnimationFrame(animationFrameRequestId);
     reset();
     document.getElementById("words").classList.remove("randomizing");
 }
 
 document.addEventListener('keydown', keyEvent => {
-    if (!keyEvent.repeat) {startRandomization()}
+    if (!keyEvent.repeat) {
+        startRandomization()
+    }
 });
 document.addEventListener('keyup', stopRandomization);
 
