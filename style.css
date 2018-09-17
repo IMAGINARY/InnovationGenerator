@@ -1,0 +1,31 @@
+body {
+    background-color: black;
+    color: white;
+    font-size: 20vmin;
+    font-family: Sans-Serif;
+    text-align: center;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#words {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.qrcode {
+    position: absolute;
+    width: 10vmin;
+    height: 10vmin;
+    bottom: 4vmin;
+    right: 4vmin;
+}
+
+.randomizing {
+}

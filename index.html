@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Title Generator</title>
+    <link rel="stylesheet" href="style.css" media="all" type="text/css">
+    <script src="qrcode.min.js"></script>
+    <script type="text/javascript" src="words.js"></script>
+    <script type="text/javascript" src="rtg.js"></script>
+</head>
+<body>
+    <div id="words">
+        <div id="adjective"></div>
+        <div id="method"></div>
+        <div id="format"></div>
+    </div>
+    <img src="" id="qrcode" class="qrcode"/>
+    <script type="text/javascript">
+        window.onload = () => {
+            const qrcode = new QRCode({
+                content: "https://github.com/IMAGINARY",
+                padding: 1,
+                color: "#000000",
+                background: "#ffffff",
+                ecl: "M"
+            });
+            const svg = qrcode.svg();
+            document.getElementById("qrcode").src = 'data:image/svg+xml;utf8,' + encodeURIComponent( svg );
+
+            assignRandomWords();
+        }
+    </script>
+</body>
+</html>
