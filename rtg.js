@@ -1,5 +1,15 @@
 'use strict';
 
+// some global settings
+const mode = "press_a_release_b";
+const maxDelay = 100;
+
+// global state
+let animationFrameRequestId;
+let cancelTimeout;
+let currentDelay;
+let lastDelayedAssignmentTimestamp;
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -18,13 +28,6 @@ function assignRandomWordsWithDelay(currentTimestamp) {
     }
     animationFrameRequestId = window.requestAnimationFrame(assignRandomWordsWithDelay);
 }
-
-const maxDelay = 100;
-
-let animationFrameRequestId;
-let cancelTimeout;
-let currentDelay;
-let lastDelayedAssignmentTimestamp;
 
 function reset() {
     animationFrameRequestId = 0;
@@ -54,12 +57,79 @@ function stopRandomization() {
     document.getElementById("words").classList.remove("randomizing");
 }
 
-document.addEventListener('keydown', keyEvent => {
-    if (!keyEvent.repeat) {
-        startRandomization()
-    }
-});
-document.addEventListener('keyup', stopRandomization);
+function isRandomizing() {
+    return animationFrameRequestId !== 0;
+}
 
-document.addEventListener('mousedown', startRandomization);
-document.addEventListener('mouseup', stopRandomization);
+const startStop = () => {
+    if (!isRandomizing())
+        startRandomization();
+    else
+        stopRandomization();
+};
+
+const startStopWithKeyCode = (() => {
+    this.lastKeyCode = -1;
+    this.fun = keyCode => {
+        if (!isRandomizing()) {
+            startRandomization();
+            this.lastKeyCode = keyCode;
+        } else {
+            if (this.lastKeyCode !== keyCode) {
+                stopRandomization();
+                this.lastKeyCode = -1;
+            }
+        }
+    };
+    return this.fun;
+})();
+
+if (mode === "press_release") {
+    document.addEventListener('keydown', keyEvent => {
+        if (!keyEvent.repeat) {
+            startRandomization();
+        }
+    });
+    document.addEventListener('keyup', stopRandomization);
+
+    document.addEventListener('mousedown', startRandomization);
+    document.addEventListener('mouseup', stopRandomization);
+} else if (mode === "press_press") {
+    document.addEventListener('keydown', keyEvent => {
+        if (!keyEvent.repeat) {
+            startStop();
+        }
+    });
+    document.addEventListener('mousedown', startStop);
+} else if (mode === "release_release") {
+    document.addEventListener('keyup', keyEvent => {
+        if (!keyEvent.repeat) {
+            startStop();
+        }
+    });
+    document.addEventListener('mouseup', startStop);
+} else if (mode === "press_a_release_b") {
+    document.addEventListener('keydown', keyEvent => {
+        if (!keyEvent.repeat) {
+            startStopWithKeyCode(keyEvent.which);
+        }
+    });
+    document.addEventListener('mousedown', startRandomization);
+    document.addEventListener('mouseup', stopRandomization);
+} else if (mode === "press_a_press_b") {
+    document.addEventListener('keydown', keyEvent => {
+        if (!keyEvent.repeat) {
+            startStopWithKeyCode(keyEvent.which);
+        }
+    });
+    document.addEventListener('mousedown', startStop);
+} else if (mode === "release_a_release_b") {
+    document.addEventListener('keyup', keyEvent => {
+        if (!keyEvent.repeat) {
+            startStopWithKeyCode(keyEvent.which);
+        }
+    });
+    document.addEventListener('mouseup', startStop);
+} else {
+    console.log(`invalid mode: ${mode}`);
+}
