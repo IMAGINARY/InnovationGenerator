@@ -1,7 +1,7 @@
 'use strict';
 
 // some global settings
-const mode = "press_a_release_b";
+const mode = "press_release";
 const maxDelay = 100;
 
 // global state
