@@ -1,8 +1,22 @@
 'use strict';
 
 // some global settings
-const mode = "press_release";
+const mode = retrieveMode();
 const maxDelay = 100;
+
+function retrieveMode() {
+    let mode = new URL(window.location.href).searchParams.get("mode");
+    let valid_mode = false;
+    ["press_release",
+        "press_press",
+        "release_release",
+        "press_a_release_b",
+        "press_a_press_b",
+        "release_a_release_b"].forEach(e => valid_mode = valid_mode || e === mode);
+    if (!valid_mode)
+        mode = "press_release";
+    return mode;
+}
 
 // global state
 let animationFrameRequestId;

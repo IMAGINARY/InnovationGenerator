@@ -17,15 +17,22 @@
     <img src="" id="qrcode" class="qrcode"/>
     <script type="text/javascript">
         window.onload = () => {
-            const qrcode = new QRCode({
-                content: window.location.href,
-                padding: 1,
-                color: "#000000",
-                background: "#ffffff",
-                ecl: "M"
-            });
-            const svg = qrcode.svg();
-            document.getElementById("qrcode").src = 'data:image/svg+xml;utf8,' + encodeURIComponent( svg );
+            let qrcode_url = new URL(window.location.href).searchParams.get("qrcode");
+            if (qrcode_url == null)
+                qrcode_url = window.location.href;
+            if (qrcode_url === "") {
+                document.getElementById("qrcode").style.display = 'none';
+            } else {
+                const qrcode = new QRCode({
+                    content: qrcode_url,
+                    padding: 1,
+                    color: "#000000",
+                    background: "#ffffff",
+                    ecl: "M"
+                });
+                const svg = qrcode.svg();
+                document.getElementById("qrcode").src = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+            }
 
             assignRandomWords();
         }
