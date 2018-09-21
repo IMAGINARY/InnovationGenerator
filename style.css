@@ -1,16 +1,20 @@
+@font-face {
+  font-family: 'bangers';
+  src: url('fonts/bangers.ttf');
+}
 body {
-    background-color: black;
-    color: white;
-    font-size: 20vmin;
-    font-family: Sans-Serif;
+    background-color: white;
+    color: #fd5e65;
+    font-size: 25vmin;
+    font-family: 'bangers';
     text-align: center;
+    line-height: 83%;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
-
 #words {
     position: absolute;
     top: 50%;
