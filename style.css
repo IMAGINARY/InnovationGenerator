@@ -8,6 +8,9 @@
 }
 
 body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     background-color: white;
     color: #fd5e65;
     font-size: 14.5vmax;
@@ -22,6 +25,7 @@ body {
 }
 #words {
     position: absolute;
+    width: 100%;
     top: 50%;
     left: 50%;
     margin-right: -50%;
