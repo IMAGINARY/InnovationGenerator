@@ -2,7 +2,7 @@
 
 // some global settings
 const mode = retrieveMode();
-const maxDelay = 100;
+const maxDelay = 200;
 
 function retrieveMode() {
     let mode = new URL(window.location.href).searchParams.get("mode");
