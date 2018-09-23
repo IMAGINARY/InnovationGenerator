@@ -33,7 +33,16 @@ body {
     width: 10vmin;
     height: 10vmin;
     bottom: 4vmin;
+    left: 4vmin;
+}
+
+#fullscreen_toggle {
+    position: absolute;
+    width: 10vmin;
+    height: 10vmin;
+    bottom: 4vmin;
     right: 4vmin;
+    z-index: 100;
 }
 
 .randomizing {

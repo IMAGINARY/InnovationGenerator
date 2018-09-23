@@ -98,70 +98,73 @@ const startStopWithKeyCode = (() => {
     return this.fun;
 })();
 
+
+const capture = false;
+
 if (mode === "press_release") {
     document.addEventListener('keydown', keyEvent => {
         if (!keyEvent.repeat) {
             startRandomization();
         }
     });
-    document.addEventListener('keyup', stopRandomization);
+    document.addEventListener('keyup', stopRandomization, capture);
 
-    document.addEventListener('mousedown', startRandomization);
-    document.addEventListener('mouseup', stopRandomization);
+    document.addEventListener('mousedown', startRandomization, capture);
+    document.addEventListener('mouseup', stopRandomization, capture);
 
-    document.addEventListener('touchstart', startRandomization);
-    document.addEventListener('touchend', stopRandomization);
+    document.addEventListener('touchstart', startRandomization, capture);
+    document.addEventListener('touchend', stopRandomization, capture);
 } else if (mode === "press_press") {
     document.addEventListener('keydown', keyEvent => {
         if (!keyEvent.repeat) {
             startStop();
         }
-    });
+    }, capture);
 
-    document.addEventListener('mousedown', startStop);
-    document.addEventListener('touchstart', startStop);
+    document.addEventListener('mousedown', startStop, capture);
+    document.addEventListener('touchstart', startStop, capture);
 } else if (mode === "release_release") {
     document.addEventListener('keyup', keyEvent => {
         if (!keyEvent.repeat) {
             startStop();
         }
-    });
+    }, capture);
 
-    document.addEventListener('mouseup', startStop);
+    document.addEventListener('mouseup', startStop, capture);
 
-    document.addEventListener('touchend', startStop);
+    document.addEventListener('touchend', startStop, capture);
 } else if (mode === "press_a_release_b") {
     document.addEventListener('keydown', keyEvent => {
         if (!keyEvent.repeat) {
             startStopWithKeyCode(keyEvent.which);
         }
-    });
+    }, capture);
 
-    document.addEventListener('mousedown', startRandomization);
-    document.addEventListener('mouseup', stopRandomization);
+    document.addEventListener('mousedown', startRandomization, capture);
+    document.addEventListener('mouseup', stopRandomization, capture);
 
-    document.addEventListener('touchstart', startRandomization);
-    document.addEventListener('touchend', stopRandomization);
+    document.addEventListener('touchstart', startRandomization, capture);
+    document.addEventListener('touchend', stopRandomization, capture);
 } else if (mode === "press_a_press_b") {
     document.addEventListener('keydown', keyEvent => {
         if (!keyEvent.repeat) {
             startStopWithKeyCode(keyEvent.which);
         }
-    });
+    }, capture);
 
-    document.addEventListener('mousedown', startStop);
+    document.addEventListener('mousedown', startStop, capture);
 
-    document.addEventListener('touchstart', startStop);
+    document.addEventListener('touchstart', startStop, capture);
 } else if (mode === "release_a_release_b") {
     document.addEventListener('keyup', keyEvent => {
         if (!keyEvent.repeat) {
             startStopWithKeyCode(keyEvent.which);
         }
-    });
+    }, capture);
 
-    document.addEventListener('mouseup', startStop);
+    document.addEventListener('mouseup', startStop, capture);
 
-    document.addEventListener('touchend', startStop);
+    document.addEventListener('touchend', startStop, capture);
 } else {
     console.log(`invalid mode: ${mode}`);
 }
