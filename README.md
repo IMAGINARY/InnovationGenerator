@@ -2,6 +2,8 @@
 
 The ultimate Monte-Carlo driven innovation idea generator for start-ups, entrepreneurs and all who are looking for the brand-new novel idea to implement! Just press a button and get your idea for a worldwide innovation.
 
+Give it a try at [https://imaginary.github.io/InnovationGenerator/](https://imaginary.github.io/InnovationGenerator/?qrcode=)
+
 ## Technical description
 
 A random title generator which displays three words in a row (an adjective, an explaining middle noun and a final end noun), pre-filled with ideas in the field of STEAM (sciences, technology, engineering, arts, mathematics) communication.
