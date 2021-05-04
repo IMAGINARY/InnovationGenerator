@@ -14,9 +14,10 @@ function getRandomInt(max) {
 }
 
 function assignRandomWords() {
-    document.getElementById("adjective").innerText = words.adjectives[getRandomInt(words.adjectives.length)];
-    document.getElementById("method").innerText = words.methods[getRandomInt(words.methods.length)];
-    document.getElementById("format").innerText = words.formats[getRandomInt(words.formats.length)];
+    const word_divs = document.querySelectorAll("#words > div");
+    for(let i = 0; i < word_divs.length; ++i) {
+        word_divs[i].innerText = words[i][getRandomInt(words[i].length)];
+    }
 }
 
 function assignRandomWordsWithDelay(currentTimestamp) {

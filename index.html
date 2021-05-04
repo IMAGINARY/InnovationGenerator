@@ -4,18 +4,16 @@
     <meta charset="UTF-8">
     <title>Innovation Generator</title>
     <link rel="stylesheet" href="style.css" media="all" type="text/css">
+    <script src="libs/promise.min.js"></script>
+    <script src="libs/fetch.umd.js"></script>
     <script src="libs/qrcode.min.js"></script>
     <script src="libs/screenfull.min.js"></script>
     <script src="libs/pep.js"></script>
-    <script type="text/javascript" src="words.js"></script>
     <script type="text/javascript" src="rtg.js"></script>
 </head>
 <body>
     <div id="filler" touch-action="none">
         <div id="words">
-            <div id="adjective"></div>
-            <div id="method"></div>
-            <div id="format"></div>
         </div>
     </div>
     <img src="" id="qrcode" class="qrcode"/>
@@ -72,8 +70,38 @@
                 return mode;
             }
 
-            const capture_elem = document.getElementById("filler");
-            initRandomTitleGenerator(capture_elem, retrieveMode());
+            let words_file = searchParams.get("words");
+            if(words_file === null) {
+              words_file = 'steamhub';
+            }
+            if(words_file.match(/([^\w-])/) !== null) {
+              throw new Error("words parameter must only include alphanumeric characters, hyphens (-) or underscores (_).");
+            }
+            const words_file_url = "wordlists/" + words_file + '.json';
+
+            fetch(words_file_url)
+              .then((response) => {
+                if(!response.ok) {
+                  throw new Error("Unable to fetch the word list '" + words_file + "' (" + words_file_url + ").");
+                } else {
+                  return response.json()
+                  .then((json) => {
+                      console.log("Using word list '" + words_file + "'':", json);
+                      window.words = json;
+                      
+                      const words_div = document.getElementById("words");
+                      for(let i = 0; i < json.length; ++i) {
+                        const div = document.createElement("div");
+                        words_div.appendChild(div);
+                      }
+                      
+                      const capture_elem = document.getElementById("filler");
+                      initRandomTitleGenerator(capture_elem, retrieveMode());
+                    })
+                  .catch((err)=>console.log("Unable to parse word list '" + words_file + "' (" + words_file_url + ").", err));
+                }
+              })
+            
         }
     </script>
 </body>
