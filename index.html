@@ -42,7 +42,7 @@
 
             // implement fullscreen toggle
             const fullscreen_toggle = document.getElementById('fullscreen_toggle');
-            if (screenfull.enabled && (searchParams.get("fullscreen_toggle") !== "false")) {
+            if (screenfull.enabled && (searchParams.get("fullscreen") !== "false")) {
                 screenfull.on("change", () => {
                     fullscreen_toggle.style.display = screenfull.isFullscreen ? "none" : "";
                 });
