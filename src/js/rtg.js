@@ -65,22 +65,22 @@ const startStop = () => {
 };
 
 const startStopWithKeyCode = (() => {
-    this.lastKeyCode = -1;
-    this.fun = keyCode => {
+    let lastKeyCode = -1;
+    const fun = keyCode => {
         if (!isRandomizing()) {
             startRandomization();
             this.lastKeyCode = keyCode;
         } else {
             if (this.lastKeyCode !== keyCode) {
                 stopRandomization();
-                this.lastKeyCode = -1;
+                lastKeyCode = -1;
             }
         }
     };
-    return this.fun;
+    return fun;
 })();
 
-function initRandomTitleGenerator(capture_elem, mode) {
+export function initRandomTitleGenerator(capture_elem, mode) {
     reset();
     assignRandomWords();
 
