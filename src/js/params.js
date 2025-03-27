@@ -34,21 +34,45 @@ function wordListNameToUrl(wordListName) {
 }
 
 /**
- * Fetch the JSON word list.
- * @param {string} wordListUrl - The word list URL.
+ * Fetch the JSON word lists.
+ * @param {string} wordListUrl - The word lists URL.
  */
 async function fetchWords(wordsFileUrl) {
   const response = await fetch(wordsFileUrl);
 
   if (!response.ok)
     throw new Error(
-      `Unable to fetch the word list '${wordsFileUrl}' (HTTP ${response.status}: ${response.statusText}).`,
+      `Unable to fetch the word lists '${wordsFileUrl}' (HTTP ${response.status}: ${response.statusText}).`,
     );
 
   try {
     return await response.json();
   } catch (error) {
-    throw new Error(`Error parsing word list '${wordsFileUrl}'`, {
+    throw new Error(`Error parsing word lists '${wordsFileUrl}'`, {
+      cause: error,
+    });
+  }
+}
+
+/**
+ * Fetch the JSON Schema of the word lists.
+ */
+async function fetchWordListSchema() {
+  const schemaUrl = new URL(
+    "src/json-schema/wordlists.schema.json",
+    window.location.href,
+  );
+  const response = await fetch(schemaUrl);
+
+  if (!response.ok)
+    throw new Error(
+      `Unable to fetch the word list schema '${schemaUrl}' (HTTP ${response.status}: ${response.statusText}).`,
+    );
+
+  try {
+    return await response.json();
+  } catch (error) {
+    throw new Error(`Error parsing word list schema '${schemaUrl}'`, {
       cause: error,
     });
   }
@@ -59,20 +83,16 @@ async function fetchWords(wordsFileUrl) {
  * @param {unknown} json - The word list object.
  * @returns {WordLists} - The validated word list.
  */
-function validateWordLists(json) {
-  // Validating the word list via JSON schema would be better,
-  // I don't want to pull in JSON validator dependency.
+async function validateWordLists(json) {
+  const wordListSchema = await fetchWordListSchema();
 
-  const error = new Error("Invalid word list format.");
+  const Ajv = window.ajv7;
+  const ajv = new Ajv();
 
-  if (!Array.isArray(json)) throw error;
-
-  for (const wordList of json) {
-    if (!Array.isArray(wordList)) throw error;
-
-    for (const word of wordList) {
-      if (typeof word !== "string") throw error;
-    }
+  const validate = ajv.compile(wordListSchema);
+  if (!validate(json)) {
+    console.error("Validation errors:", validate.errors);
+    throw new Error("Invalid wordlists format.");
   }
 
   return json;
