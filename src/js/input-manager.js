@@ -35,7 +35,7 @@ export class InputManager {
   /**
    * @param {StepperMode} mode
    * @param {{step: HTMLElement}} elements
-   * @param {SpecialKeys} specialKeys
+   * @param {Partial<SpecialKeys>} specialKeys
    * @param {() => boolean} isSteppingCallback - Callback to check if the stepper is running.
    */
   constructor(mode, elements, specialKeys = {}, isSteppingCallback) {
