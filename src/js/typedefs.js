@@ -1,6 +1,11 @@
 /**
+ * Word data type.
+ * @typedef {string|Object.<string, string>} Word
+ */
+
+/**
  * Word list data type.
- * @typedef {string[][]} WordLists
+ * @typedef {Word[][]} WordLists
  */
 
 /**
@@ -16,6 +21,9 @@
  * @property {StepperMode} mode
  * @property {boolean} fullscreen
  * @property {string | false} qrcode
+ * @property {Intl.Locale[]} localesPromise
+ * @property {Intl.Locale} locale
+ * @property {Intl.Locale} fallbackLocale
  */
 
 /**
@@ -27,6 +35,9 @@
  * @property {StepperMode} mode
  * @property {boolean} fullscreen
  * @property {string | false} qrcode
+ * @property {Intl.Locale[]} locales
+ * @property {Intl.Locale} locale
+ * @property {Intl.Locale} fallbackLocale
  */
 
 /**

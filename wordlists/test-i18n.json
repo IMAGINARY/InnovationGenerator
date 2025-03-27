@@ -1,0 +1,20 @@
+[
+  [
+    { "en": "English 1a", "de": "Deutsch 1a" },
+    { "en": "English 1b", "de": "Deutsch 1b" },
+    { "en": "English 1c", "de": "Deutsch 1c" },
+    "1d"
+  ],
+  [
+    { "en": "English 2a", "de": "Deutsch 2a" },
+    { "en": "English 2b", "de": "Deutsch 2b" },
+    { "en": "English 2c", "de": "Deutsch 2c" },
+    { "en": "English 2d", "de": "Deutsch 2d" },
+    "2e"
+  ],
+  [
+    { "en": "English 3a", "de": "Deutsch 3a" },
+    { "en": "English 3b", "de": "Deutsch 3b" },
+    "3c"
+  ]
+]

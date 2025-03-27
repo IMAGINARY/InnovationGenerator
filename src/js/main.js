@@ -1,17 +1,31 @@
+/** @import { Word, PartiallyAsyncOptions } from './typedefs.js' */
 import { processParams, syncOptions } from "./params.js";
 import { ready } from "./ready.js";
 import { generateQRCodeSVGDataUri } from "./qr-code.js";
 import { initFullscreenButton } from "./fullscreen.js";
 import { selectRandomNGram } from "./select-random-n-gram.js";
+import { t, indexOfLocale, fallbackLocales } from "./i18n.js";
 import { Stepper } from "./stepper.js";
 import { InputManager } from "./input-manager.js";
 
-function exchangeWords(wordDivs, words) {
-  wordDivs.childNodes.forEach((div, i) => {
-    div.textContent = words[i];
+/**
+ * Exchange the words in the given divs with the words in the given array respecting the given locale and fallback locale.
+ * @param {HTMLElement[]} wordDivs
+ * @param {Word[]} words
+ * @param {Intl.Locale} locale
+ * @param {Intl.Locale} fallbackLocale
+ */
+function exchangeWords(wordDivs, words, locale, fallbackLocale) {
+  wordDivs.forEach((div, i) => {
+    div.textContent = t(words[i], locale, fallbackLocale);
   });
 }
 
+/**
+ * Main function.
+ * @param {PartiallyAsyncOptions} asyncOptions
+ * @returns {Promise<void>}
+ */
 async function main(asyncOptions) {
   const options = await syncOptions(asyncOptions);
 
@@ -30,17 +44,46 @@ async function main(asyncOptions) {
     fullscreenButton.style.display = "none";
   }
 
-  const wordDivs = document.getElementById("words");
+  const wordDivContainer = document.getElementById("words");
+  const wordDivs = [];
   for (let i = 0; i < options.wordList.length; ++i) {
     const div = document.createElement("div");
-    wordDivs.appendChild(div);
+    wordDivContainer.appendChild(div);
+    wordDivs.push(div);
   }
 
   const pointerInputElem = document.getElementById("words-container");
 
-  const randomize = () =>
-    exchangeWords(wordDivs, selectRandomNGram(options.wordList));
+  let locales = options.locales;
+  let localeIndex = indexOfLocale(locales, options.locale);
+  let locale = localeIndex !== -1 ? locales[localeIndex] : options.locale;
+  let nGram;
+  const randomize = () => {
+    nGram = selectRandomNGram(options.wordList);
+    exchangeWords(wordDivs, nGram, locale, options.fallbackLocale);
+  };
   randomize();
+
+  const setLocale = (i) => {
+    // Remove the previous locale's CSS classes
+    fallbackLocales(locale).forEach((fallbackLocale) => {
+      document.body.classList.remove(`locale-${fallbackLocale.baseName}`);
+    });
+
+    localeIndex = 0 <= i && i < locales.length ? i : -1;
+    locale = localeIndex !== -1 ? locales[localeIndex] : options.locale;
+
+    // Add the new locale's CSS classes
+    fallbackLocales(locale).forEach((fallbackLocale) => {
+      document.body.classList.add(`locale-${fallbackLocale.baseName}`);
+    });
+
+    console.log(`Switching to locale ${localeIndex}: '${locale.baseName}'`);
+    exchangeWords(wordDivs, nGram, locale, options.fallbackLocale);
+  };
+  setLocale(localeIndex);
+
+  const nextLocale = () => setLocale((localeIndex + 1) % locales.length);
 
   const stepper = new Stepper();
   stepper.onstart = () => document.body.classList.add("running");
@@ -58,6 +101,7 @@ async function main(asyncOptions) {
   );
 
   inputManager.onfullscreenchange = screenfull.toggle.bind(screenfull);
+  inputManager.onlanguagechange = nextLocale;
   inputManager.onstartstepping = stepper.start.bind(stepper);
   inputManager.onstopstepping = stepper.stop.bind(stepper);
 }

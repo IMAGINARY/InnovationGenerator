@@ -95,6 +95,25 @@ async function validateWordLists(json) {
     throw new Error("Invalid wordlists format.");
   }
 
+  for (let i = 0; i < json.length; i++) {
+    const wordList = json[i];
+    for (let j = 0; j < wordList.length; j++) {
+      const word = wordList[j];
+      if (typeof word !== "string") {
+        // The word is an object, so it must be a dictionary of translations
+        Object.keys(word).forEach((localeName, i) => {
+          try {
+            new Intl.Locale(localeName);
+          } catch (error) {
+            throw new Error(
+              `Invalid locale name '${localeName}' in word ${j} of word list ${i}.`,
+            );
+          }
+        });
+      }
+    }
+  }
+
   return json;
 }
 
@@ -142,6 +161,68 @@ function processQrCodeParam(params) {
 }
 
 /**
+ * Extract and process the languages option from the URL search parameters
+ * using the languages found in the word lists as a fallback.
+ * @param {URLSearchParams} params
+ * @param {WordLists} wordLists
+ * @returns {Intl.Locale[]}
+ */
+function processLanguagesParams(params, wordLists) {
+  const wordLocaleNameSet = new Set();
+  wordLists.forEach((wordList) =>
+    wordList.forEach((word) => {
+      if (typeof word === "string") {
+        return;
+      }
+      Object.keys(word).forEach((k) => {
+        const localeName = new Intl.Locale(k).baseName;
+        wordLocaleNameSet.add(localeName);
+      });
+    }),
+  );
+  const wordLocaleNames = Array.from(wordLocaleNameSet);
+
+  const providedParam = params.get("languages");
+  if (providedParam === null || providedParam === "") {
+    // if no language list is provided, return all the languages found in the word lists
+    console.info(`Using locales found in word lists:`, wordLocaleNames);
+    return wordLocaleNames.map((n) => new Intl.Locale(n));
+  }
+
+  // parse provided language list
+  const parsedLocales = providedParam
+    .split(",")
+    .map((localeName) => new Intl.Locale(localeName));
+  console.info(
+    `Using locales provided in 'languages' parameter:`,
+    parsedLocales.map((l) => l.baseName),
+  );
+  return parsedLocales;
+}
+
+/**
+ * Extract and process the language option from the URL search parameters.
+ * @param {URLSearchParams} params
+ * @returns {Intl.Locale}
+ */
+function processLanguageParam(params) {
+  const providedParam = params.get("language");
+  const locale = new Intl.Locale(providedParam ?? navigator.language);
+  return locale;
+}
+
+/**
+ * Extract and process the fallback language option from the URL search parameters.
+ * @param {URLSearchParams} params
+ * @returns {Intl.Locale}
+ */
+function processFallbackLanguageParam(params) {
+  const providedParam = params.get("fallbackLanguage");
+  const fallbackLocale = new Intl.Locale(providedParam ?? navigator.language);
+  return fallbackLocale;
+}
+
+/**
  * Parse the URL parameters and return an object with the options.
  * Some of the options are async, so they are returned as promises.
  *
@@ -157,6 +238,11 @@ export function processParams(
   const mode = processModeParam(params);
   const fullscreen = processFullscreenParam(params);
   const qrcode = processQrCodeParam(params);
+  const localesPromise = wordListPromise.then((wordList) =>
+    processLanguagesParams(params, wordList),
+  );
+  const locale = processLanguageParam(params);
+  const fallbackLocale = processFallbackLanguageParam(params);
 
   return {
     wordListName,
@@ -165,6 +251,9 @@ export function processParams(
     mode,
     fullscreen,
     qrcode,
+    localesPromise,
+    locale,
+    fallbackLocale,
   };
 }
 
@@ -181,6 +270,9 @@ export async function syncOptions(partiallyAsyncOptions) {
     mode,
     fullscreen,
     qrcode,
+    localesPromise,
+    locale,
+    fallbackLocale,
   } = partiallyAsyncOptions;
   return {
     wordListName,
@@ -189,5 +281,8 @@ export async function syncOptions(partiallyAsyncOptions) {
     mode,
     fullscreen,
     qrcode,
+    locales: await localesPromise,
+    locale,
+    fallbackLocale,
   };
 }

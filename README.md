@@ -20,9 +20,12 @@ Configuration is done via URL parameters:
  - `mode`: Defined how keyboard buttons, mouse buttons and touch screen touch trigger the randomization process. Possible values are `press_release` (the default), `press_press`, `release_release`, `press_a_release_b`, `press_a_press_b` and `release_a_release_b`. In `*_a_*b` mode, consecutive keyboard events need to originate from different keys. This is sometimes useful to connect with external buttons that send key presses on both, button down *and* up.
  - `fullscreen`: Disables fullscreen if set to `false`.
  - `qrcode`: The URL the code should point to. Set to empty to hide the QR code. Note that that special characters in the  URL might need to be escaped.
- 
+ - `language`: The language to start the generator in.
+ - `languages`: A comma separated list of languages to cycle through.
+ - `fallbackLanguage`: The language to fall back to if the selected word is not available in the current language.
+
 #### Adding words
-Additional words can be added to `words.js`. 
+Additional words can be added as JSON files to the `wordlists` folder. Localization is supported. See [`wordlists/test-i18n.json`](wordlists/test-i18n.json) for an example. 
 
 #### License
 

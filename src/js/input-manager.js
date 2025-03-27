@@ -6,6 +6,7 @@
  */
 const specialKeysDefault = {
   fullscreen: ["f"],
+  language: ["l"],
 };
 
 /**
@@ -67,6 +68,11 @@ export class InputManager {
 
       if (specialKeys.fullscreen.includes(keyEvent.key)) {
         emitFullscreenChange();
+        keyEvent.stopImmediatePropagation();
+      }
+
+      if (specialKeys.language.includes(keyEvent.key)) {
+        emitLanguageChange();
         keyEvent.stopImmediatePropagation();
       }
     });
