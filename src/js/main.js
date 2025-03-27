@@ -63,4 +63,6 @@ async function main(asyncOptions) {
 }
 
 const asyncOptions = processParams();
-ready().then(async () => main(asyncOptions));
+ready()
+  .then(async () => main(asyncOptions))
+  .catch((err) => console.error(err));
