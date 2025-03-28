@@ -14,19 +14,21 @@ This generator was implemented for the project STEAM Hub (www.steam-hub.com) and
 ### Usage
 
 #### Configuration
+
 Configuration is done via URL parameters:
- 
- - `words`: Set the name of the words list. Default is `steamhub`. Word lists will be retrieved from the `wordlist` directory. The extension `.json` is appended. E.g. the word list `steamhub` is requested from `./wordlist/steamhub.json`.
- - `mode`: Defined how keyboard buttons, mouse buttons and touch screen touch trigger the randomization process. Possible values are `press_release` (the default), `press_press`, `release_release`, `press_a_release_b`, `press_a_press_b` and `release_a_release_b`. In `*_a_*b` mode, consecutive keyboard events need to originate from different keys. This is sometimes useful to connect with external buttons that send key presses on both, button down *and* up.
- - `fullscreenButton`: Hides the fullscreen button if set to `false`. (For backwards-compatibility, the previous `fullscreen` option name is still supported.)
- - `qrcode`: The URL the code should point to. Set to empty to hide the QR code. Note that that special characters in the  URL might need to be escaped.
- - `language`: The language to start the generator in.
- - `languages`: A comma separated list of languages to cycle through.
- - `fallbackLanguage`: The language to fall back to if the selected word is not available in the current language.
- - `languageButton`: If not set to `false` and there are multiple languages, display a button to cycle through the languages.
+
+- `words`: Set the name of the words list. Default is `steamhub`. Word lists will be retrieved from the `wordlist` directory. The extension `.json` is appended. E.g. the word list `steamhub` is requested from `./wordlist/steamhub.json`.
+- `mode`: Defined how keyboard buttons, mouse buttons and touch screen touch trigger the randomization process. Possible values are `press_release` (the default), `press_press`, `release_release`, `press_a_release_b`, `press_a_press_b` and `release_a_release_b`. In `*_a_*b` mode, consecutive keyboard events need to originate from different keys. This is sometimes useful to connect with external buttons that send key presses on both, button down _and_ up.
+- `fullscreenButton`: Hides the fullscreen button if set to `false`. (For backwards-compatibility, the previous `fullscreen` option name is still supported.)
+- `qrcode`: The URL the code should point to. Set to empty to hide the QR code. Note that that special characters in the URL might need to be escaped.
+- `language`: The language to start the generator in.
+- `languages`: A comma separated list of languages to cycle through.
+- `fallbackLanguage`: The language to fall back to if the selected word is not available in the current language.
+- `languageButton`: If not set to `false` and there are multiple languages, display a button to cycle through the languages.
 
 #### Adding words
-Additional words can be added as JSON files to the `wordlists` folder. Localization is supported. See [`wordlists/test-i18n.json`](wordlists/test-i18n.json) for an example. 
+
+Additional words can be added as JSON files to the `wordlists` folder. Localization is supported. See [`wordlists/test-i18n.json`](wordlists/test-i18n.json) for an example.
 
 #### License
 
