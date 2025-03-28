@@ -38,7 +38,7 @@ async function main(asyncOptions) {
   }
 
   const fullscreenButtonElem = document.getElementById("fullscreen-button");
-  if (options.fullscreen) {
+  if (options.fullscreenButton) {
     initFullscreenButton(fullscreenButtonElem);
   } else {
     fullscreenButtonElem.style.display = "none";

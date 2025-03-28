@@ -18,7 +18,7 @@ Configuration is done via URL parameters:
  
  - `words`: Set the name of the words list. Default is `steamhub`. Word lists will be retrieved from the `wordlist` directory. The extension `.json` is appended. E.g. the word list `steamhub` is requested from `./wordlist/steamhub.json`.
  - `mode`: Defined how keyboard buttons, mouse buttons and touch screen touch trigger the randomization process. Possible values are `press_release` (the default), `press_press`, `release_release`, `press_a_release_b`, `press_a_press_b` and `release_a_release_b`. In `*_a_*b` mode, consecutive keyboard events need to originate from different keys. This is sometimes useful to connect with external buttons that send key presses on both, button down *and* up.
- - `fullscreen`: Disables fullscreen if set to `false`.
+ - `fullscreenButton`: Hides the fullscreen button if set to `false`. (For backwards-compatibility, the previous `fullscreen` option name is still supported.)
  - `qrcode`: The URL the code should point to. Set to empty to hide the QR code. Note that that special characters in the  URL might need to be escaped.
  - `language`: The language to start the generator in.
  - `languages`: A comma separated list of languages to cycle through.

@@ -140,8 +140,9 @@ function processModeParam(params) {
  * Extract and process the fullscreen option from the URL search parameters.
  * @param {URLSearchParams} params - The URL search parameters.
  */
-function processFullscreenParam(params) {
-  const providedParam = params.get("fullscreen");
+function processFullscreenButtonParam(params) {
+  const providedParam =
+    params.get("fullscreenButton") ?? params.get("fullscreen");
   return providedParam === null
     ? defaultParams.fullscreen
     : providedParam !== "false";
@@ -248,7 +249,7 @@ export function processParams(
   const wordListUrl = wordListNameToUrl(wordListName);
   const wordListPromise = fetchWords(wordListUrl).then(validateWordLists);
   const mode = processModeParam(params);
-  const fullscreen = processFullscreenParam(params);
+  const fullscreenButton = processFullscreenButtonParam(params);
   const qrcode = processQrCodeParam(params);
   const localesPromise = wordListPromise.then((wordList) =>
     processLanguagesParams(params, wordList),
@@ -264,7 +265,7 @@ export function processParams(
     wordListUrl,
     wordListPromise,
     mode,
-    fullscreen,
+    fullscreenButton,
     qrcode,
     localesPromise,
     locale,
@@ -284,7 +285,7 @@ export async function syncOptions(partiallyAsyncOptions) {
     wordListUrl,
     wordListPromise,
     mode,
-    fullscreen,
+    fullscreenButton,
     qrcode,
     localesPromise,
     locale,
@@ -296,7 +297,7 @@ export async function syncOptions(partiallyAsyncOptions) {
     wordListUrl,
     wordList: await wordListPromise,
     mode,
-    fullscreen,
+    fullscreenButton,
     qrcode,
     locales: await localesPromise,
     locale,

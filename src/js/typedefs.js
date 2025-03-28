@@ -19,7 +19,7 @@
  * @property {URL} wordListsUrl
  * @property {Promise<WordLists>} wordListsPromise
  * @property {StepperMode} mode
- * @property {boolean} fullscreen
+ * @property {boolean} fullscreenButton
  * @property {string | false} qrcode
  * @property {Intl.Locale[]} localesPromise
  * @property {Intl.Locale} locale
@@ -34,7 +34,7 @@
  * @property {URL} wordListsUrl
  * @property {WordLists} wordLists
  * @property {StepperMode} mode
- * @property {boolean} fullscreen
+ * @property {boolean} fullscreenButton
  * @property {string | false} qrcode
  * @property {Intl.Locale[]} locales
  * @property {Intl.Locale} locale
