@@ -25,6 +25,8 @@
  * @property {Intl.Locale} locale
  * @property {Intl.Locale} fallbackLocale
  * @property {boolean} languageButtonPromise
+ * @property {string} theme
+ * @property {URL} themeUrl
  */
 
 /**
@@ -40,6 +42,8 @@
  * @property {Intl.Locale} locale
  * @property {Intl.Locale} fallbackLocale
  * @property {boolean} languageButton
+ * @property {string} theme
+ * @property {URL} themeUrl
  */
 
 /**

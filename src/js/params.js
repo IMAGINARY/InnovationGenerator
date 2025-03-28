@@ -5,6 +5,7 @@ const defaultParams = {
   mode: "press_release",
   fullscreen: true,
   qrcode: window.location.href,
+  theme: "default",
 };
 
 /**
@@ -236,6 +237,25 @@ function processFallbackLanguageParam(params) {
 }
 
 /**
+ * Extract and process the theme name from the URL search parameters.
+ * @param {URLSearchParams} params
+ * @returns {string}
+ */
+function processThemeParam(params) {
+  const providedParam = params.get("theme");
+  return providedParam ?? defaultParams.theme;
+}
+
+/**
+ * Turn the theme name into a URL.
+ * @param {string} wordListName - The word list name.
+ */
+function themeNameToUrl(themeName) {
+  const themeUrl = new URL(`themes/${themeName}.css`, window.location.href);
+  return themeUrl;
+}
+
+/**
  * Parse the URL parameters and return an object with the options.
  * Some of the options are async, so they are returned as promises.
  *
@@ -259,6 +279,8 @@ export function processParams(
   const languageButtonPromise = localesPromise.then((locales) =>
     processLanguageButtonParam(params, locales.length > 1),
   );
+  const theme = processThemeParam(params);
+  const themeUrl = themeNameToUrl(theme);
 
   return {
     wordListName,
@@ -271,6 +293,8 @@ export function processParams(
     locale,
     fallbackLocale,
     languageButtonPromise,
+    theme,
+    themeUrl,
   };
 }
 
@@ -291,6 +315,8 @@ export async function syncOptions(partiallyAsyncOptions) {
     locale,
     fallbackLocale,
     languageButtonPromise,
+    theme,
+    themeUrl,
   } = partiallyAsyncOptions;
   return {
     wordListName,
@@ -303,5 +329,7 @@ export async function syncOptions(partiallyAsyncOptions) {
     locale,
     fallbackLocale,
     languageButton: await languageButtonPromise,
+    theme,
+    themeUrl,
   };
 }

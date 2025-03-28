@@ -9,6 +9,20 @@ import { Stepper } from "./stepper.js";
 import { InputManager } from "./input-manager.js";
 
 /**
+ * Load the theme.
+ * @param {URL} themeUrl
+ */
+function loadTheme(themeUrl) {
+  const linkElem = document.createElement("link");
+  linkElem.href = themeUrl;
+  linkElem.rel = "stylesheet";
+  linkElem.media = "all";
+  linkElem.type = "text/css";
+
+  document.head.appendChild(linkElem);
+}
+
+/**
  * Exchange the words in the given divs with the words in the given array respecting the given locale and fallback locale.
  * @param {HTMLElement[]} wordDivs
  * @param {Word[]} words
@@ -111,6 +125,8 @@ async function main(asyncOptions) {
 }
 
 const asyncOptions = processParams();
+loadTheme(asyncOptions.themeUrl);
+
 ready()
   .then(async () => main(asyncOptions))
   .catch((err) => console.error(err));
