@@ -37,11 +37,11 @@ async function main(asyncOptions) {
     qrCodeElem.src = generateQRCodeSVGDataUri(options.qrcode);
   }
 
-  const fullscreenButton = document.getElementById("fullscreen_toggle");
+  const fullscreenButtonElem = document.getElementById("fullscreen-button");
   if (options.fullscreen) {
-    initFullscreenButton(fullscreenButton);
+    initFullscreenButton(fullscreenButtonElem);
   } else {
-    fullscreenButton.style.display = "none";
+    fullscreenButtonElem.style.display = "none";
   }
 
   const wordDivContainer = document.getElementById("words");

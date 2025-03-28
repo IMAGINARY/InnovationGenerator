@@ -50,7 +50,7 @@ body {
     left: 4vmin;
 }
 
-#fullscreen_toggle {
+#fullscreen-button {
     position: absolute;
     width: 10vmin;
     height: 10vmin;
