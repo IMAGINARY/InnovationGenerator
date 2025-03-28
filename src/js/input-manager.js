@@ -35,7 +35,7 @@ export class InputManager {
 
   /**
    * @param {StepperMode} mode
-   * @param {{step: HTMLElement}} elements
+   * @param {{step: HTMLElement, language: HTMLElement}} elements
    * @param {Partial<SpecialKeys>} specialKeys
    * @param {() => boolean} isSteppingCallback - Callback to check if the stepper is running.
    */
@@ -60,6 +60,8 @@ export class InputManager {
     const emitStopStepping = createEmitter(() => this.onstopstepping);
     const emitLanguageChange = createEmitter(() => this.onlanguagechange);
     const emitFullscreenChange = createEmitter(() => this.onfullscreenchange);
+
+    elements.language.addEventListener("click", emitLanguageChange);
 
     // Capture special key events and stop propagation immediately such that
     // they don't trigger the stepping

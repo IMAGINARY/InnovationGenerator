@@ -44,6 +44,8 @@ async function main(asyncOptions) {
     fullscreenButtonElem.style.display = "none";
   }
 
+  const languageButtonElem = document.getElementById("language-button");
+
   const wordDivContainer = document.getElementById("words");
   const wordDivs = [];
   for (let i = 0; i < options.wordList.length; ++i) {
@@ -92,6 +94,7 @@ async function main(asyncOptions) {
 
   const inputManagerElements = {
     step: pointerInputElem,
+    language: languageButtonElem,
   };
   const inputManager = new InputManager(
     options.mode,
