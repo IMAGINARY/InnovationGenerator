@@ -148,6 +148,18 @@ function processFullscreenParam(params) {
 }
 
 /**
+ * Extract and process the language buttons option from the URL search parameters.
+ * @param {URLSearchParams} params - The URL search parameters.
+ * @param {boolean} hasMultipleLocales - Whether there are multiple locales available.
+ */
+function processLanguageButtonParam(params, hasMultipleLocales) {
+  const providedParam = params.get("languageButton");
+  const languageButtonRequested =
+    providedParam !== null && providedParam !== "false";
+  return languageButtonRequested && hasMultipleLocales;
+}
+
+/**
  * Extract and process the QR code option from the URL search parameters.
  * @param {URLSearchParams} params - The URL search parameters.
  */
@@ -243,6 +255,9 @@ export function processParams(
   );
   const locale = processLanguageParam(params);
   const fallbackLocale = processFallbackLanguageParam(params);
+  const languageButtonPromise = localesPromise.then((locales) =>
+    processLanguageButtonParam(params, locales.length > 1),
+  );
 
   return {
     wordListName,
@@ -254,6 +269,7 @@ export function processParams(
     localesPromise,
     locale,
     fallbackLocale,
+    languageButtonPromise,
   };
 }
 
@@ -273,6 +289,7 @@ export async function syncOptions(partiallyAsyncOptions) {
     localesPromise,
     locale,
     fallbackLocale,
+    languageButtonPromise,
   } = partiallyAsyncOptions;
   return {
     wordListName,
@@ -284,5 +301,6 @@ export async function syncOptions(partiallyAsyncOptions) {
     locales: await localesPromise,
     locale,
     fallbackLocale,
+    languageButton: await languageButtonPromise,
   };
 }

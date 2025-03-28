@@ -45,6 +45,7 @@ async function main(asyncOptions) {
   }
 
   const languageButtonElem = document.getElementById("language-button");
+  if (!options.languageButton) languageButtonElem.style.display = "none";
 
   const wordDivContainer = document.getElementById("words");
   const wordDivs = [];

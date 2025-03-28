@@ -23,6 +23,7 @@ Configuration is done via URL parameters:
  - `language`: The language to start the generator in.
  - `languages`: A comma separated list of languages to cycle through.
  - `fallbackLanguage`: The language to fall back to if the selected word is not available in the current language.
+ - `languageButton`: If not set to `false` and there are multiple languages, display a button to cycle through the languages.
 
 #### Adding words
 Additional words can be added as JSON files to the `wordlists` folder. Localization is supported. See [`wordlists/test-i18n.json`](wordlists/test-i18n.json) for an example. 

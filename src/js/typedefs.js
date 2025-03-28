@@ -24,6 +24,7 @@
  * @property {Intl.Locale[]} localesPromise
  * @property {Intl.Locale} locale
  * @property {Intl.Locale} fallbackLocale
+ * @property {boolean} languageButtonPromise
  */
 
 /**
@@ -38,6 +39,7 @@
  * @property {Intl.Locale[]} locales
  * @property {Intl.Locale} locale
  * @property {Intl.Locale} fallbackLocale
+ * @property {boolean} languageButton
  */
 
 /**
