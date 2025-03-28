@@ -59,6 +59,17 @@ body {
     z-index: 100;
 }
 
+#language-button:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("images/language-icon.svg");
+    background-size: contain;
+}
+
 #fullscreen-button {
     position: absolute;
     width: 10vmin;
@@ -66,6 +77,17 @@ body {
     bottom: 4vmin;
     right: 4vmin;
     z-index: 100;
+}
+
+#fullscreen-button:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("images/fullscreen-on.svg");
+    background-size: contain;
 }
 
 .randomizing {
