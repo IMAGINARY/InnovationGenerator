@@ -1,7 +1,7 @@
 /** @import { WordLists, PartiallyAsyncOptions, Option, StepperMode } from './typedefs.js' */
 
 const defaultParams = {
-  words: "steamhub",
+  words: "default",
   mode: "press_release",
   fullscreen: true,
   qrcode: window.location.href,
