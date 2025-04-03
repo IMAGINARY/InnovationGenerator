@@ -27,6 +27,7 @@
  * @property {boolean} languageButtonPromise
  * @property {string} theme
  * @property {URL} themeUrl
+ * @property {boolean} html
  */
 
 /**
@@ -44,6 +45,7 @@
  * @property {boolean} languageButton
  * @property {string} theme
  * @property {URL} themeUrl
+ * @property {boolean} html
  */
 
 /**

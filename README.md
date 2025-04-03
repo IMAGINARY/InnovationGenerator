@@ -26,6 +26,7 @@ Configuration is done via URL parameters:
 - `fallbackLanguage`: The language to fall back to if the selected word is not available in the current language.
 - `languageButton`: If not set to `false` and there are multiple languages, display a button to cycle through the languages.
 - `theme`: Name of the theme to use. Themes are loaded from the `themes` directory. The extension `.css` is appended. E.g. the theme `default` is requested from `./themes/default.css`.
+- `html`: Whether to interpret the words as HTML, not plain text (default is `false`). This is useful for themes that use HTML markup to style the words.
 
 #### Adding words
 

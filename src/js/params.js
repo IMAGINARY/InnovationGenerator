@@ -6,6 +6,7 @@ const defaultParams = {
   fullscreen: true,
   qrcode: window.location.href,
   theme: "default",
+  html: false,
 };
 
 /**
@@ -256,6 +257,18 @@ function themeNameToUrl(themeName) {
 }
 
 /**
+ * Extract and process from the URL search parameters whether HTML can be used inside the words.
+ * @param {URLSearchParams} params
+ * @returns {boolean}
+ */
+function processHtmlParam(params) {
+  const providedParam = params.get("html");
+  return providedParam === null
+    ? defaultParams.html
+    : providedParam !== "false";
+}
+
+/**
  * Parse the URL parameters and return an object with the options.
  * Some of the options are async, so they are returned as promises.
  *
@@ -281,6 +294,7 @@ export function processParams(
   );
   const theme = processThemeParam(params);
   const themeUrl = themeNameToUrl(theme);
+  const html = processHtmlParam(params);
 
   return {
     wordListName,
@@ -295,6 +309,7 @@ export function processParams(
     languageButtonPromise,
     theme,
     themeUrl,
+    html,
   };
 }
 
@@ -317,6 +332,7 @@ export async function syncOptions(partiallyAsyncOptions) {
     languageButtonPromise,
     theme,
     themeUrl,
+    html,
   } = partiallyAsyncOptions;
   return {
     wordListName,
@@ -331,5 +347,6 @@ export async function syncOptions(partiallyAsyncOptions) {
     languageButton: await languageButtonPromise,
     theme,
     themeUrl,
+    html,
   };
 }

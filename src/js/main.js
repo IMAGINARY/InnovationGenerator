@@ -22,16 +22,28 @@ function loadTheme(themeUrl) {
   document.head.appendChild(linkElem);
 }
 
+const domParser = new DOMParser();
+
 /**
  * Exchange the words in the given divs with the words in the given array respecting the given locale and fallback locale.
  * @param {HTMLElement[]} wordDivs
  * @param {Word[]} words
  * @param {Intl.Locale} locale
  * @param {Intl.Locale} fallbackLocale
+ * @param {boolean} html
  */
-function exchangeWords(wordDivs, words, locale, fallbackLocale) {
+function exchangeWords(wordDivs, words, locale, fallbackLocale, html) {
   wordDivs.forEach((div, i) => {
-    div.textContent = t(words[i], locale, fallbackLocale);
+    const word = t(words[i], locale, fallbackLocale);
+    if (html) {
+      // TODO: The validation of the HTML words should already happen during parsing, not here
+      div.innerHTML = "";
+      const doc = domParser.parseFromString(`${word}`, "text/html");
+      const children = [...doc.body.childNodes];
+      children.forEach((child) => div.appendChild(document.adoptNode(child)));
+    } else {
+      div.textContent = word;
+    }
   });
 }
 
@@ -77,7 +89,13 @@ async function main(asyncOptions) {
   let nGram;
   const randomize = () => {
     nGram = selectRandomNGram(options.wordList);
-    exchangeWords(wordDivs, nGram, locale, options.fallbackLocale);
+    exchangeWords(
+      wordDivs,
+      nGram,
+      locale,
+      options.fallbackLocale,
+      options.html,
+    );
   };
   randomize();
 
@@ -96,7 +114,13 @@ async function main(asyncOptions) {
     });
 
     console.log(`Switching to locale ${localeIndex}: '${locale.baseName}'`);
-    exchangeWords(wordDivs, nGram, locale, options.fallbackLocale);
+    exchangeWords(
+      wordDivs,
+      nGram,
+      locale,
+      options.fallbackLocale,
+      options.html,
+    );
   };
   setLocale(localeIndex);
 
